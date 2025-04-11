@@ -54,6 +54,31 @@ app.get('/', (req, res) => {
     console.error('Error reading users file:', error);
     res.status(500).send('Error loading user data');
   }
+
+});
+
+app.get('/join', (req, res) => {
+  try {
+    const clubMembers = JSON.parse(fs.readFileSync(usersFilePath));
+    const clubM = clubMembers.students; // read the array of students sign-ups
+    console.log('Users loaded:', clubM);
+    // console.log("userList is", userList);
+     res.render('join', {clubArray, clubM});
+  } catch (error) {
+    console.error('Error reading users file:', error);
+    res.status(500).send('Error loading user data');
+  }
+});
+
+app.post('/submit-form', (req, res) => {
+  try {
+    const clubMembers = JSON.parse(fs.readFileSync(usersFilePath));
+    const clubM = clubMembers.students; // read the array of students sign-ups
+     res.render('index.hbs', {clubArray, clubM});
+  } catch (error) {
+    console.error('Error reading users file:', error);
+    res.status(500).send('Error loading user data');
+  }
 });
 
 

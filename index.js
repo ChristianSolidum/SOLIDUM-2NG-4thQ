@@ -70,15 +70,44 @@ app.get('/join', (req, res) => {
   }
 });
 
+// Add this route to handle form submissions
 app.post('/submit-form', (req, res) => {
-  try {
-    const clubMembers = JSON.parse(fs.readFileSync(usersFilePath));
-    const clubM = clubMembers.students; // read the array of students sign-ups
-     res.render('index.hbs', {clubArray, clubM});
-  } catch (error) {
-    console.error('Error reading users file:', error);
-    res.status(500).send('Error loading user data');
-  }
+    const newStudent = req.body; // Get the new student data from the form
+
+    // Read the existing club members data
+    fs.readFile(usersFilePath, 'utf8', (err, data) => {
+        if (err) {
+            console.error('Error reading users file:', err);
+            return res.status(500).send('Error saving user data');
+        }
+
+        let clubMembers;
+        try {
+            clubMembers = JSON.parse(data); // Parse the existing data
+        } catch (parseError) {
+            console.error('Error parsing users file:', parseError);
+            return res.status(500).send('Error saving user data');
+        }
+
+        // Ensure the students property exists
+        if (!clubMembers.students) {
+            clubMembers.students = [];
+        }
+
+        // Add the new student to the array
+        clubMembers.students.push(newStudent);
+
+        // Write the updated data back to the file
+        fs.writeFile(usersFilePath, JSON.stringify(clubMembers, null, 2), (writeError) => {
+            if (writeError) {
+                console.error('Error writing users file:', writeError);
+                return res.status(500).send('Error saving user data');
+            }
+
+            // Redirect to the join page or the member list page
+            res.redirect('/join'); // Redirect to the join page after successful submission
+        });
+    });
 });
 
 

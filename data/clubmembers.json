@@ -65,6 +65,17 @@
       "type": "extern",
       "preferredClub": "Alianti",
       "reason": "To be more physically active!"
+    },
+    {
+      "studentID": "1234560987654",
+      "fullName": "Ilelest Morono",
+      "birthday": "2025-04-11",
+      "email": "solidum@here",
+      "mobile": "12345",
+      "gradeLevel": "grade7",
+      "type": "extern",
+      "preferredClub": "Bake Club",
+      "reason": "I love baking"
     }
   ]
 }

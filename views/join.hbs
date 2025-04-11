@@ -8,17 +8,13 @@
     <meta name="revised" content="04/11/2025" />
     <meta name="description" content="Student Club Sign-up Form" />
     <link rel="stylesheet" href="styles.css" />
-    
 </head>
 <body>
     <form action="/submit-form" method="post" class="container"
-          onsubmit = "return confirm('Accept Student-Sign-Up')"      
-          onreset = "return confirm('Entered data will be lost. Continue?')" 
-    >
+          onsubmit="return confirm('Accept Student-Sign-Up')"      
+          onreset="return confirm('Entered data will be lost. Continue?')">
         <caption> 
-          <h1>
-           Student Club Sign-up Form
-          </h1>
+          <h1>Student Club Sign-up Form</h1>
         </caption>
         <label for="studentID">Student ID:</label>
         <input type="number" id="studentID" name="studentID" required>
@@ -51,15 +47,16 @@
         <input type="radio" id="extern" name="type" value="extern" required>
         <label for="extern" style="display: inline;">Extern</label>
         
-        <label for="organization">Preferred Organization / Club:</label>
-        <select id="preferredClub" name="preferredClub" required>
-           <!-- use handlebars to create a drop-down of clubs' name -->
-          <option value="N/A">All Clubs</option>
+        <label for="preferredClub">Preferred Organization / Club:</label>
+        <select id="preferredClub" name="preferredClub" required onchange="showClubDescription()">
+            <option value="N/A">Select a Club</option>
             {{#each clubArray}}
               <option value="{{this.name}}">{{this.name}}</option>
             {{/each}}
         </select>
         
+        <p id="clubDescription" style="display:none;"></p>
+
         <label for="reason">Why do you want to join?</label>
         <textarea id="reason" name="reason" required></textarea>
         
@@ -73,6 +70,25 @@
           <button type="button"> Click Here to See Member list </button>
         </a>
     </p>
-     
+
+    <script>
+        const clubDescriptions = {
+            {{#each clubArray}}
+                "{{this.name}}": "{{this.description}}",
+            {{/each}}
+        };
+
+        function showClubDescription() {
+            const selectedClub = document.getElementById('preferredClub').value;
+            const descriptionElement = document.getElementById('clubDescription');
+
+            if (selectedClub && clubDescriptions[selectedClub]) {
+                descriptionElement.innerText = clubDescriptions[selectedClub];
+                descriptionElement.style.display = 'block';
+            } else {
+                descriptionElement.style.display = 'none';
+            }
+        }
+    </script>
 </body>
 </html>

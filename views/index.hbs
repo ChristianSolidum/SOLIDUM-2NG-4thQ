@@ -52,31 +52,28 @@
     <script>
         
         function filterStudents() {
-          
-            // Hide all club description info divs
-          document.querySelectorAll('.club-info').forEach(div => {
-              div.style.display = 'none';
-          });
+    // Hide all club description info divs
+    document.querySelectorAll('.club-info').forEach(div => {
+        div.style.display = 'none';
+    });
 
-          // Show selected club description
-          const selected = document.getElementById('clubFilter').value;
-          if (selected) {
-              document.getElementById(selected).style.display = 'block';
-          }
-          
-          
-          const filter = document.getElementById("clubFilter").value;
-          const rows = document.querySelectorAll("#studentList tr");
+    // Show selected club description
+    const selected = document.getElementById('clubFilter').value;
+    if (selected && selected !== "all") {
+        document.getElementById(selected).style.display = 'block';
+    }
 
-          rows.forEach(row => {
-            if (filter === "all" || row.getAttribute("data-club") === filter) {
-              row.style.display = "";
-            } else {
-              row.style.display = "none";
-            }
-          });
-         
+    const filter = document.getElementById("clubFilter").value;
+    const rows = document.querySelectorAll("#studentList tr");
+
+    rows.forEach(row => {
+        if (filter === "all" || row.getAttribute("data-club") === filter) {
+            row.style.display = "";
+        } else {
+            row.style.display = "none";
         }
+    });
+}
     </script>
 </body>
 </html>
